@@ -17,7 +17,8 @@
       "supportsTablet": true,
       "bundleIdentifier": "com.hqkids.app",
       "infoPlist": {
-        "NSCameraUsageDescription": "HQ Kids precisa da câmera para comprovar tarefas concluídas"
+        "NSCameraUsageDescription": "HQ Kids precisa da câmera para comprovar tarefas concluídas",
+        "ITSAppUsesNonExemptEncryption": false
       }
     },
     "android": {
@@ -26,7 +27,10 @@
         "backgroundColor": "#FFF9F0"
       },
       "package": "com.hqkids.app",
-      "permissions": ["CAMERA"]
+      "permissions": [
+        "android.permission.CAMERA",
+        "android.permission.RECORD_AUDIO"
+      ]
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -45,6 +49,13 @@
           "photosPermission": "HQ Kids precisa acessar suas fotos"
         }
       ]
-    ]
+    ],
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "c0177b4d-9168-4dcb-86cd-3a19638a23f8"
+      }
+    },
+    "owner": "johnmagnavita"
   }
 }

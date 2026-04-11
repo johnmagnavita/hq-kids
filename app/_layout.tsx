@@ -3,7 +3,6 @@ import { Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import { useAuthStore } from "../stores/authStore";
 import { useChildStore } from "../stores/childStore";
-import "../global.css";
 
 export default function RootLayout() {
   const initialize = useAuthStore((s) => s.initialize);
