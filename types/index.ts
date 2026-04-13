@@ -10,6 +10,9 @@ export interface Child {
   theme_color: string;
   age: number;
   parent_id: string;
+  user_id: string | null;
+  email: string | null;
+  role: "child" | "parent";
 }
 
 export interface ChildStats {

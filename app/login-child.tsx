@@ -13,7 +13,7 @@ import {
 import { useRouter } from "expo-router";
 import { useAuthStore } from "../stores/authStore";
 
-export default function LoginScreen() {
+export default function LoginChildScreen() {
   const router = useRouter();
   const { signIn, signUp } = useAuthStore();
   const [email, setEmail] = useState("");
@@ -30,12 +30,14 @@ export default function LoginScreen() {
     try {
       if (isSignUp) {
         await signUp(email, password);
-        Alert.alert("Sucesso", "Conta criada! Verifique seu email.", [
-          { text: "OK", onPress: () => router.back() },
-        ]);
+        Alert.alert(
+          "Conta criada! 🎉",
+          "Agora peça ao seu pai/mãe para vincular seu email no app dele.",
+          [{ text: "OK", onPress: () => router.back() }]
+        );
       } else {
         await signIn(email, password);
-        router.replace("/(parent)/dashboard");
+        router.replace("/(child)/dashboard");
       }
     } catch (err: any) {
       Alert.alert("Erro", err.message);
@@ -49,9 +51,18 @@ export default function LoginScreen() {
       style={styles.container}
       behavior={Platform.OS === "ios" ? "padding" : "height"}
     >
-      <Text style={styles.title}>🦸‍♂️ HQ Kids</Text>
+      <Pressable onPress={() => router.back()} style={styles.backBtn}>
+        <Text style={styles.backText}>← Voltar</Text>
+      </Pressable>
+
+      <Text style={styles.emoji}>🧒</Text>
+      <Text style={styles.title}>
+        {isSignUp ? "Criar minha conta" : "Entrar"}
+      </Text>
       <Text style={styles.subtitle}>
-        {isSignUp ? "Criar conta" : "Entrar como Pai/Mãe"}
+        {isSignUp
+          ? "Crie sua conta e peça pro pai/mãe te vincular"
+          : "Use seu email e senha"}
       </Text>
 
       <TextInput
@@ -73,7 +84,7 @@ export default function LoginScreen() {
       />
 
       <Pressable
-        style={[styles.button, loading && styles.buttonDisabled]}
+        style={[styles.button, loading && { opacity: 0.6 }]}
         onPress={handleSubmit}
         disabled={loading}
       >
@@ -104,14 +115,28 @@ const styles = StyleSheet.create({
     padding: 24,
     justifyContent: "center",
   },
+  backBtn: {
+    position: "absolute",
+    top: 60,
+    left: 24,
+  },
+  backText: {
+    fontSize: 16,
+    color: "#22C55E",
+  },
+  emoji: {
+    fontSize: 64,
+    textAlign: "center",
+  },
   title: {
-    fontSize: 36,
+    fontSize: 28,
     fontWeight: "bold",
     textAlign: "center",
     color: "#1F2937",
+    marginTop: 8,
   },
   subtitle: {
-    fontSize: 16,
+    fontSize: 14,
     color: "#6B7280",
     textAlign: "center",
     marginTop: 4,
@@ -128,14 +153,11 @@ const styles = StyleSheet.create({
     color: "#1F2937",
   },
   button: {
-    backgroundColor: "#3B82F6",
+    backgroundColor: "#22C55E",
     borderRadius: 12,
     padding: 16,
     alignItems: "center",
     marginTop: 8,
-  },
-  buttonDisabled: {
-    opacity: 0.6,
   },
   buttonText: {
     color: "#FFF",
@@ -143,7 +165,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   switchText: {
-    color: "#3B82F6",
+    color: "#22C55E",
     textAlign: "center",
     marginTop: 16,
     fontSize: 15,

@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import {
   View,
   Text,
+  Image,
   ScrollView,
   Pressable,
   StyleSheet,
@@ -174,16 +175,23 @@ export default function ChildDashboard() {
             {ranking.map((r, i) => (
               <View key={r.child.id} style={styles.rankItem}>
                 <Text style={styles.rankPos}>{i + 1}º</Text>
-                <View
-                  style={[
-                    styles.rankAvatar,
-                    { backgroundColor: r.child.theme_color },
-                  ]}
-                >
-                  <Text style={styles.rankAvatarText}>
-                    {r.child.name.charAt(0)}
-                  </Text>
-                </View>
+                {r.child.avatar_url ? (
+                  <Image
+                    source={{ uri: r.child.avatar_url }}
+                    style={[styles.rankAvatar, { backgroundColor: r.child.theme_color }]}
+                  />
+                ) : (
+                  <View
+                    style={[
+                      styles.rankAvatar,
+                      { backgroundColor: r.child.theme_color },
+                    ]}
+                  >
+                    <Text style={styles.rankAvatarText}>
+                      {r.child.name.charAt(0)}
+                    </Text>
+                  </View>
+                )}
                 <Text style={styles.rankName}>{r.child.name}</Text>
                 <Text style={styles.rankXp}>{r.xp} XP</Text>
               </View>

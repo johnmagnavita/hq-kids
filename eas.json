@@ -13,11 +13,18 @@
         "buildType": "apk"
       }
     },
+    "testflight": {
+      "distribution": "store",
+      "ios": {
+        "autoIncrement": true
+      }
+    },
     "production": {
       "autoIncrement": true
     }
   },
   "submit": {
+    "testflight": {},
     "production": {}
   }
 }

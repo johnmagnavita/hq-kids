@@ -14,6 +14,7 @@ import { useAuthStore } from "../../../stores/authStore";
 import { useTaskStore } from "../../../stores/taskStore";
 import { useChildStore } from "../../../stores/childStore";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { sendLocalNotification } from "../../../services/notifications";
 import { TASK_ICONS } from "../../../types";
 import type { TaskType, Recurrence } from "../../../types";
 
@@ -59,6 +60,10 @@ export default function CreateTask() {
       assigned_to: assignedTo,
       created_by: user.id,
     });
+    sendLocalNotification(
+      "Nova missão criada!",
+      `"${name.trim()}" — ${xpReward} XP, ${coinsReward} moedas`
+    );
     setLoading(false);
     router.back();
   };

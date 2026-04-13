@@ -5,23 +5,45 @@ import { useAuthStore } from "../../stores/authStore";
 
 export default function PinScreen() {
   const router = useRouter();
-  const enterParentMode = useAuthStore((s) => s.enterParentMode);
+  const { enterParentMode, pin: savedPin, pinReady, setPin: savePin } = useAuthStore();
   const [pin, setPin] = useState("");
   const [error, setError] = useState(false);
+  const [step, setStep] = useState<"enter" | "create" | "confirm">("enter");
+  const [newPin, setNewPin] = useState("");
+
+  const isFirstTime = pinReady && !savedPin;
 
   const handleDigit = (digit: string) => {
     if (pin.length >= 4) return;
-    const newPin = pin + digit;
-    setPin(newPin);
+    const val = pin + digit;
+    setPin(val);
     setError(false);
 
-    if (newPin.length === 4) {
-      if (enterParentMode(newPin)) {
-        router.replace("/(parent)/dashboard");
+    if (val.length === 4) {
+      if (isFirstTime || step === "create") {
+        if (step === "confirm") {
+          if (val === newPin) {
+            savePin(val);
+            enterParentMode(val);
+            router.replace("/(parent)/dashboard");
+          } else {
+            setError(true);
+            Vibration.vibrate(300);
+            setTimeout(() => { setPin(""); setStep("create"); setNewPin(""); }, 400);
+          }
+        } else {
+          setNewPin(val);
+          setStep("confirm");
+          setTimeout(() => setPin(""), 200);
+        }
       } else {
-        setError(true);
-        Vibration.vibrate(300);
-        setTimeout(() => setPin(""), 300);
+        if (enterParentMode(val)) {
+          router.replace("/(parent)/dashboard");
+        } else {
+          setError(true);
+          Vibration.vibrate(300);
+          setTimeout(() => setPin(""), 300);
+        }
       }
     }
   };
@@ -38,7 +60,11 @@ export default function PinScreen() {
       </Pressable>
 
       <Text style={styles.title}>🔒 Modo Pai</Text>
-      <Text style={styles.subtitle}>Digite o PIN de 4 dígitos</Text>
+      <Text style={styles.subtitle}>
+        {isFirstTime || step === "create"
+          ? step === "confirm" ? "Confirme o PIN" : "Crie um PIN de 4 dígitos"
+          : "Digite o PIN de 4 dígitos"}
+      </Text>
 
       <View style={styles.dots}>
         {[0, 1, 2, 3].map((i) => (

@@ -16,6 +16,7 @@ import { analyzeTaskPhoto } from "../../../services/claude";
 import { CelebrationOverlay } from "../../../components/CelebrationOverlay";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { supabase } from "../../../services/supabase";
+import { sendLocalNotification } from "../../../services/notifications";
 import type { Task } from "../../../types";
 
 export default function TaskDetail() {
@@ -87,6 +88,10 @@ export default function TaskDetail() {
     if (completion) {
       await creditRewards();
       setShowCelebration(true);
+      sendLocalNotification(
+        `${child.name} completou uma missão!`,
+        `${task.name} — +${task.xp_reward} XP, +${task.coins_reward} moedas`
+      );
     }
   };
 
@@ -131,6 +136,10 @@ export default function TaskDetail() {
       if (result.aprovado) {
         await creditRewards();
         setShowCelebration(true);
+        sendLocalNotification(
+          `${child.name} completou uma missão!`,
+          `${task.name} — +${task.xp_reward} XP, +${task.coins_reward} moedas`
+        );
       } else {
         setFeedback(result.feedback);
         setRejected(true);

@@ -10,6 +10,7 @@ import {
 import { useRouter } from "expo-router";
 import { useChildStore } from "../../stores/childStore";
 import { supabase } from "../../services/supabase";
+import { sendLocalNotification } from "../../services/notifications";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { CoinsBadge } from "../../components/CoinsBadge";
 import type { Reward } from "../../types";
@@ -59,6 +60,10 @@ export default function StoreScreen() {
             await updateStats(child.id, {
               coins_balance: st.coins_balance - reward.cost_coins,
             });
+            sendLocalNotification(
+              `${child.name} resgatou uma recompensa!`,
+              `"${reward.name}" por ${reward.cost_coins} moedas — aguardando aprovação`
+            );
             Alert.alert(
               "Resgate solicitado! 🎉",
               "Aguardando confirmação dos pais."

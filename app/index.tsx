@@ -1,16 +1,34 @@
-import { View, Text, Pressable, StyleSheet, ActivityIndicator } from "react-native";
+import { useEffect } from "react";
+import {
+  View,
+  Text,
+  Pressable,
+  StyleSheet,
+  ActivityIndicator,
+} from "react-native";
 import { useRouter } from "expo-router";
 import { useAuthStore } from "../stores/authStore";
 import { useChildStore } from "../stores/childStore";
-import { ChildAvatar } from "../components/ChildAvatar";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 export default function HomeScreen() {
   const router = useRouter();
-  const { user, loading: authLoading } = useAuthStore();
-  const { children, loading: childrenLoading, setActiveChild } = useChildStore();
+  const { user, role, childProfile, loading: authLoading } = useAuthStore();
+  const { setActiveChild } = useChildStore();
 
-  if (authLoading || childrenLoading) {
+  useEffect(() => {
+    if (authLoading) return;
+    if (!user) return;
+
+    if (role === "parent") {
+      router.replace("/(parent)/dashboard");
+    } else if (role === "child" && childProfile) {
+      setActiveChild(childProfile.id);
+      router.replace("/(child)/dashboard");
+    }
+  }, [authLoading, user, role, childProfile]);
+
+  if (authLoading) {
     return (
       <View style={styles.container}>
         <ActivityIndicator size="large" color="#3B82F6" />
@@ -18,59 +36,39 @@ export default function HomeScreen() {
     );
   }
 
-  if (!user) {
+  // Logged in — waiting for redirect
+  if (user) {
     return (
       <View style={styles.container}>
-        <View style={styles.logoContainer}>
-          <Text style={styles.logoEmoji}>🦸‍♂️</Text>
-          <Text style={styles.logo}>HQ Kids</Text>
-          <Text style={styles.subtitle}>Missões em família!</Text>
-        </View>
-
-        <Pressable
-          style={styles.loginButton}
-          onPress={() => router.push("/login")}
-        >
-          <Text style={styles.loginButtonText}>Entrar</Text>
-        </Pressable>
+        <ActivityIndicator size="large" color="#3B82F6" />
       </View>
     );
   }
 
+  // Not logged in
   return (
     <View style={styles.container}>
-      <Pressable
-        style={styles.parentButton}
-        onPress={() => router.push("/(parent)/pin")}
-      >
-        <MaterialCommunityIcons name="shield-account" size={24} color="#6B7280" />
-      </Pressable>
-
       <View style={styles.logoContainer}>
         <Text style={styles.logoEmoji}>🦸‍♂️</Text>
         <Text style={styles.logo}>HQ Kids</Text>
-        <Text style={styles.subtitle}>Quem vai jogar?</Text>
+        <Text style={styles.subtitle}>Missões em família!</Text>
       </View>
 
-      <View style={styles.avatars}>
-        {children.map((child) => (
-          <ChildAvatar
-            key={child.id}
-            child={child}
-            size={90}
-            onPress={() => {
-              setActiveChild(child.id);
-              router.push("/(child)/dashboard");
-            }}
-          />
-        ))}
-      </View>
+      <Pressable
+        style={[styles.button, { backgroundColor: "#3B82F6" }]}
+        onPress={() => router.push("/login")}
+      >
+        <MaterialCommunityIcons name="shield-account" size={22} color="#FFF" />
+        <Text style={styles.buttonText}>Entrar como Pai/Mãe</Text>
+      </Pressable>
 
-      {children.length === 0 && (
-        <Text style={styles.emptyText}>
-          Nenhum perfil cadastrado ainda.{"\n"}Entre no modo pai para configurar!
-        </Text>
-      )}
+      <Pressable
+        style={[styles.button, { backgroundColor: "#22C55E", marginTop: 12 }]}
+        onPress={() => router.push("/login-child")}
+      >
+        <MaterialCommunityIcons name="account" size={22} color="#FFF" />
+        <Text style={styles.buttonText}>Entrar como Filho(a)</Text>
+      </Pressable>
     </View>
   );
 }
@@ -82,17 +80,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     padding: 24,
-  },
-  parentButton: {
-    position: "absolute",
-    top: 60,
-    right: 24,
-    width: 44,
-    height: 44,
-    borderRadius: 22,
-    backgroundColor: "#F3F4F6",
-    justifyContent: "center",
-    alignItems: "center",
   },
   logoContainer: {
     alignItems: "center",
@@ -112,25 +99,18 @@ const styles = StyleSheet.create({
     color: "#6B7280",
     marginTop: 4,
   },
-  avatars: {
+  button: {
     flexDirection: "row",
-    gap: 32,
-    flexWrap: "wrap",
+    alignItems: "center",
     justifyContent: "center",
-  },
-  emptyText: {
-    textAlign: "center",
-    color: "#9CA3AF",
-    fontSize: 15,
-    lineHeight: 22,
-  },
-  loginButton: {
-    backgroundColor: "#3B82F6",
-    paddingHorizontal: 48,
+    gap: 8,
+    paddingHorizontal: 32,
     paddingVertical: 16,
     borderRadius: 16,
+    width: "100%",
+    maxWidth: 300,
   },
-  loginButtonText: {
+  buttonText: {
     color: "#FFF",
     fontSize: 18,
     fontWeight: "bold",

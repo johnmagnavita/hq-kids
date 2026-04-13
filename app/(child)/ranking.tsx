@@ -1,4 +1,4 @@
-import { View, Text, Pressable, StyleSheet } from "react-native";
+import { View, Text, Pressable, Image, StyleSheet } from "react-native";
 import { useRouter } from "expo-router";
 import { useChildStore } from "../../stores/childStore";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
@@ -38,16 +38,23 @@ export default function RankingScreen() {
           style={[styles.card, { borderLeftColor: r.child.theme_color }]}
         >
           <Text style={styles.medal}>{medals[i] ?? `${i + 1}º`}</Text>
-          <View
-            style={[
-              styles.avatar,
-              { backgroundColor: r.child.theme_color },
-            ]}
-          >
-            <Text style={styles.avatarText}>
-              {r.child.name.charAt(0)}
-            </Text>
-          </View>
+          {r.child.avatar_url ? (
+            <Image
+              source={{ uri: r.child.avatar_url }}
+              style={[styles.avatar, { backgroundColor: r.child.theme_color }]}
+            />
+          ) : (
+            <View
+              style={[
+                styles.avatar,
+                { backgroundColor: r.child.theme_color },
+              ]}
+            >
+              <Text style={styles.avatarText}>
+                {r.child.name.charAt(0)}
+              </Text>
+            </View>
+          )}
           <View style={{ flex: 1 }}>
             <Text style={styles.name}>{r.child.name}</Text>
             <XPBar

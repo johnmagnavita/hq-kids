@@ -3,6 +3,7 @@ import {
   View,
   Text,
   Pressable,
+  Image,
   ScrollView,
   StyleSheet,
   RefreshControl,
@@ -19,7 +20,7 @@ import { useState } from "react";
 
 export default function ParentDashboard() {
   const router = useRouter();
-  const { exitParentMode, user } = useAuthStore();
+  const { signOut, user } = useAuthStore();
   const { children, stats, fetchChildren, fetchAllStats } = useChildStore();
   const { tasks, fetchTasks } = useTaskStore();
   const [refreshing, setRefreshing] = useState(false);
@@ -55,12 +56,12 @@ export default function ParentDashboard() {
         </View>
         <Pressable
           style={styles.exitButton}
-          onPress={() => {
-            exitParentMode();
+          onPress={async () => {
+            await signOut();
             router.replace("/");
           }}
         >
-          <MaterialCommunityIcons name="close" size={24} color="#6B7280" />
+          <MaterialCommunityIcons name="logout" size={22} color="#6B7280" />
         </Pressable>
       </View>
 
@@ -80,16 +81,23 @@ export default function ParentDashboard() {
               style={[styles.childCard, { borderLeftColor: child.theme_color }]}
             >
               <View style={styles.childHeader}>
-                <View
-                  style={[
-                    styles.avatar,
-                    { backgroundColor: child.theme_color },
-                  ]}
-                >
-                  <Text style={styles.avatarText}>
-                    {child.name.charAt(0)}
-                  </Text>
-                </View>
+                {child.avatar_url ? (
+                  <Image
+                    source={{ uri: child.avatar_url }}
+                    style={[styles.avatar, { backgroundColor: child.theme_color }]}
+                  />
+                ) : (
+                  <View
+                    style={[
+                      styles.avatar,
+                      { backgroundColor: child.theme_color },
+                    ]}
+                  >
+                    <Text style={styles.avatarText}>
+                      {child.name.charAt(0)}
+                    </Text>
+                  </View>
+                )}
                 <View style={{ flex: 1 }}>
                   <Text style={styles.childName}>{child.name}</Text>
                   {level && (
@@ -136,6 +144,25 @@ export default function ParentDashboard() {
 
         <Pressable
           style={styles.listButton}
+          onPress={() => router.push("/(parent)/children")}
+        >
+          <MaterialCommunityIcons
+            name="account-group"
+            size={20}
+            color="#22C55E"
+          />
+          <Text style={[styles.listButtonText, { color: "#22C55E" }]}>
+            Gerenciar Filhos
+          </Text>
+          <MaterialCommunityIcons
+            name="chevron-right"
+            size={20}
+            color="#22C55E"
+          />
+        </Pressable>
+
+        <Pressable
+          style={styles.listButton}
           onPress={() => router.push("/(parent)/tasks")}
         >
           <MaterialCommunityIcons
@@ -178,6 +205,21 @@ export default function ParentDashboard() {
             name="chevron-right"
             size={20}
             color="#6B7280"
+          />
+        </Pressable>
+
+        <Pressable
+          style={styles.listButton}
+          onPress={() => router.push("/(parent)/settings")}
+        >
+          <MaterialCommunityIcons name="cog" size={20} color="#F59E0B" />
+          <Text style={[styles.listButtonText, { color: "#F59E0B" }]}>
+            Trocar PIN
+          </Text>
+          <MaterialCommunityIcons
+            name="chevron-right"
+            size={20}
+            color="#F59E0B"
           />
         </Pressable>
 
