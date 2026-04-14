@@ -6,12 +6,12 @@
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
-    "newArchEnabled": true,
+    "newArchEnabled": false,
     "scheme": "hq-kids",
     "splash": {
       "image": "./assets/splash-icon.png",
       "resizeMode": "contain",
-      "backgroundColor": "#FFF9F0"
+      "backgroundColor": "#FFFFFF"
     },
     "ios": {
       "supportsTablet": true,
@@ -53,6 +53,8 @@
     ],
     "extra": {
       "router": {},
+      "supabaseUrl": "https://fzqauoracgekwojsozfv.supabase.co",
+      "supabaseAnonKey": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZ6cWF1b3JhY2dla3dvanNvemZ2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMzMzUzMjcsImV4cCI6MjA4ODkxMTMyN30.EmRDceAlYyBWNoaa85DStEhkIlqWOJ8OhkMsg0GqRE8",
       "eas": {
         "projectId": "c0177b4d-9168-4dcb-86cd-3a19638a23f8"
       }
