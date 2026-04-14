@@ -14,7 +14,7 @@ export default function RootLayout() {
 
   useEffect(() => {
     initialize();
-    registerForPushNotifications();
+    registerForPushNotifications().catch(() => {});
   }, []);
 
   useEffect(() => {

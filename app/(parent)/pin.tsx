@@ -55,15 +55,16 @@ export default function PinScreen() {
 
   return (
     <View style={styles.container}>
-      <Pressable style={styles.backButton} onPress={() => router.back()}>
+      <Pressable style={styles.backBtn} onPress={() => router.back()}>
         <Text style={styles.backText}>← Voltar</Text>
       </Pressable>
 
-      <Text style={styles.title}>🔒 Modo Pai</Text>
+      <Text style={styles.lock}>🔒</Text>
+      <Text style={styles.title}>Modo Pai</Text>
       <Text style={styles.subtitle}>
         {isFirstTime || step === "create"
-          ? step === "confirm" ? "Confirme o PIN" : "Crie um PIN de 4 dígitos"
-          : "Digite o PIN de 4 dígitos"}
+          ? step === "confirm" ? "Confirme o PIN" : "Crie um PIN de 4 digitos"
+          : "Digite o PIN de 4 digitos"}
       </Text>
 
       <View style={styles.dots}>
@@ -73,7 +74,7 @@ export default function PinScreen() {
             style={[
               styles.dot,
               pin.length > i && styles.dotFilled,
-              error && styles.dotError,
+              error && pin.length > i && styles.dotError,
             ]}
           />
         ))}
@@ -86,13 +87,17 @@ export default function PinScreen() {
           (key) => (
             <Pressable
               key={key || "empty"}
-              style={[styles.key, !key && styles.keyEmpty]}
+              style={({ pressed }) => [
+                styles.key,
+                !key && styles.keyEmpty,
+                pressed && key ? styles.keyPressed : null,
+              ]}
               onPress={() => {
                 if (key === "⌫") handleDelete();
                 else if (key) handleDigit(key);
               }}
             >
-              <Text style={styles.keyText}>{key}</Text>
+              <Text style={[styles.keyText, key === "⌫" && { fontSize: 22 }]}>{key}</Text>
             </Pressable>
           )
         )}
@@ -104,84 +109,35 @@ export default function PinScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#FFF9F0",
+    backgroundColor: "#FFFFFF",
     alignItems: "center",
     justifyContent: "center",
     padding: 24,
   },
-  backButton: {
-    position: "absolute",
-    top: 60,
-    left: 24,
-  },
-  backText: {
-    fontSize: 16,
-    color: "#3B82F6",
-  },
-  title: {
-    fontSize: 28,
-    fontWeight: "bold",
-    color: "#1F2937",
-  },
-  subtitle: {
-    fontSize: 15,
-    color: "#6B7280",
-    marginTop: 4,
-    marginBottom: 32,
-  },
-  dots: {
-    flexDirection: "row",
-    gap: 16,
-    marginBottom: 16,
-  },
+  backBtn: { position: "absolute", top: 60, left: 24 },
+  backText: { fontSize: 16, color: "#06B6D4", fontWeight: "600" },
+  lock: { fontSize: 40, marginBottom: 8 },
+  title: { fontSize: 28, fontWeight: "800", color: "#111827", letterSpacing: -0.5 },
+  subtitle: { fontSize: 15, color: "#6B7280", marginTop: 4, marginBottom: 32 },
+  dots: { flexDirection: "row", gap: 20, marginBottom: 16 },
   dot: {
-    width: 20,
-    height: 20,
-    borderRadius: 10,
-    borderWidth: 2,
-    borderColor: "#D1D5DB",
+    width: 18, height: 18, borderRadius: 9,
+    borderWidth: 2, borderColor: "#E5E7EB", backgroundColor: "#FFFFFF",
   },
-  dotFilled: {
-    backgroundColor: "#3B82F6",
-    borderColor: "#3B82F6",
-  },
-  dotError: {
-    backgroundColor: "#EF4444",
-    borderColor: "#EF4444",
-  },
-  errorText: {
-    color: "#EF4444",
-    marginBottom: 16,
-  },
+  dotFilled: { backgroundColor: "#39FF14", borderColor: "#39FF14" },
+  dotError: { backgroundColor: "#EF4444", borderColor: "#EF4444" },
+  errorText: { color: "#EF4444", fontSize: 14, fontWeight: "600", marginBottom: 12 },
   keypad: {
-    flexDirection: "row",
-    flexWrap: "wrap",
-    width: 260,
-    justifyContent: "center",
-    marginTop: 16,
+    flexDirection: "row", flexWrap: "wrap",
+    width: 270, justifyContent: "center", marginTop: 16,
   },
   key: {
-    width: 72,
-    height: 72,
-    margin: 6,
-    borderRadius: 36,
-    backgroundColor: "#FFF",
-    justifyContent: "center",
-    alignItems: "center",
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.05,
-    shadowRadius: 2,
-    elevation: 1,
+    width: 74, height: 74, margin: 6, borderRadius: 37,
+    backgroundColor: "#F8FAF9", justifyContent: "center", alignItems: "center",
+    shadowColor: "#000", shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.04, shadowRadius: 3, elevation: 1,
   },
-  keyEmpty: {
-    backgroundColor: "transparent",
-    elevation: 0,
-    shadowOpacity: 0,
-  },
-  keyText: {
-    fontSize: 28,
-    fontWeight: "600",
-    color: "#1F2937",
-  },
+  keyPressed: { backgroundColor: "rgba(57,255,20,0.08)" },
+  keyEmpty: { backgroundColor: "transparent", elevation: 0, shadowOpacity: 0 },
+  keyText: { fontSize: 28, fontWeight: "600", color: "#111827" },
 });

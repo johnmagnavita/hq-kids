@@ -48,7 +48,8 @@
         {
           "photosPermission": "HQ Kids precisa acessar suas fotos"
         }
-      ]
+      ],
+      "expo-font"
     ],
     "extra": {
       "router": {},

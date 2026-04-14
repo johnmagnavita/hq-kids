@@ -31,8 +31,8 @@ export default function LoginChildScreen() {
       if (isSignUp) {
         await signUp(email, password);
         Alert.alert(
-          "Conta criada! 🎉",
-          "Agora peça ao seu pai/mãe para vincular seu email no app dele.",
+          "Conta criada!",
+          "Agora peca ao seu pai/mae para vincular seu email no app dele.",
           [{ text: "OK", onPress: () => router.back() }]
         );
       } else {
@@ -57,12 +57,12 @@ export default function LoginChildScreen() {
 
       <Text style={styles.emoji}>🧒</Text>
       <Text style={styles.title}>
-        {isSignUp ? "Criar minha conta" : "Entrar"}
+        {isSignUp ? "Criar minha conta" : "Ola, heroi!"}
       </Text>
       <Text style={styles.subtitle}>
         {isSignUp
-          ? "Crie sua conta e peça pro pai/mãe te vincular"
-          : "Use seu email e senha"}
+          ? "Crie sua conta e peca pro pai/mae te vincular"
+          : "Use o email que seu pai/mae cadastrou"}
       </Text>
 
       <TextInput
@@ -84,24 +84,20 @@ export default function LoginChildScreen() {
       />
 
       <Pressable
-        style={[styles.button, loading && { opacity: 0.6 }]}
+        style={({ pressed }) => [styles.btn, loading && { opacity: 0.6 }, pressed && { opacity: 0.9, transform: [{ scale: 0.98 }] }]}
         onPress={handleSubmit}
         disabled={loading}
       >
         {loading ? (
           <ActivityIndicator color="#FFF" />
         ) : (
-          <Text style={styles.buttonText}>
-            {isSignUp ? "Criar Conta" : "Entrar"}
-          </Text>
+          <Text style={styles.btnText}>{isSignUp ? "Criar Conta" : "Entrar"}</Text>
         )}
       </Pressable>
 
       <Pressable onPress={() => setIsSignUp(!isSignUp)}>
         <Text style={styles.switchText}>
-          {isSignUp
-            ? "Já tem conta? Entrar"
-            : "Não tem conta? Criar"}
+          {isSignUp ? "Ja tem conta? Entrar" : "Nao tem conta? Criar"}
         </Text>
       </Pressable>
     </KeyboardAvoidingView>
@@ -111,7 +107,7 @@ export default function LoginChildScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#FFF9F0",
+    backgroundColor: "#FFFFFF",
     padding: 24,
     justifyContent: "center",
   },
@@ -122,18 +118,20 @@ const styles = StyleSheet.create({
   },
   backText: {
     fontSize: 16,
-    color: "#22C55E",
+    color: "#34D399",
+    fontWeight: "600",
   },
   emoji: {
-    fontSize: 64,
+    fontSize: 56,
     textAlign: "center",
   },
   title: {
     fontSize: 28,
-    fontWeight: "bold",
+    fontWeight: "800",
     textAlign: "center",
-    color: "#1F2937",
+    color: "#111827",
     marginTop: 8,
+    letterSpacing: -0.5,
   },
   subtitle: {
     fontSize: 14,
@@ -143,31 +141,37 @@ const styles = StyleSheet.create({
     marginBottom: 32,
   },
   input: {
-    backgroundColor: "#FFF",
+    backgroundColor: "#FFFFFF",
     borderRadius: 12,
     padding: 16,
     fontSize: 16,
     marginBottom: 12,
     borderWidth: 1,
     borderColor: "#E5E7EB",
-    color: "#1F2937",
+    color: "#111827",
   },
-  button: {
-    backgroundColor: "#22C55E",
-    borderRadius: 12,
+  btn: {
+    backgroundColor: "#39FF14",
+    borderRadius: 14,
     padding: 16,
     alignItems: "center",
     marginTop: 8,
+    shadowColor: "#39FF14",
+    shadowOffset: { width: 0, height: 6 },
+    shadowOpacity: 0.3,
+    shadowRadius: 16,
+    elevation: 8,
   },
-  buttonText: {
+  btnText: {
     color: "#FFF",
-    fontSize: 18,
-    fontWeight: "bold",
+    fontSize: 17,
+    fontWeight: "700",
   },
   switchText: {
-    color: "#22C55E",
+    color: "#34D399",
     textAlign: "center",
     marginTop: 16,
     fontSize: 15,
+    fontWeight: "500",
   },
 });

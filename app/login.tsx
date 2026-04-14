@@ -49,9 +49,13 @@ export default function LoginScreen() {
       style={styles.container}
       behavior={Platform.OS === "ios" ? "padding" : "height"}
     >
-      <Text style={styles.title}>🦸‍♂️ HQ Kids</Text>
+      <Pressable onPress={() => router.back()} style={styles.backBtn}>
+        <Text style={styles.backText}>← Voltar</Text>
+      </Pressable>
+
+      <Text style={styles.title}>HQ Kids</Text>
       <Text style={styles.subtitle}>
-        {isSignUp ? "Criar conta" : "Entrar como Pai/Mãe"}
+        {isSignUp ? "Criar conta" : "Entrar como Pai/Mae"}
       </Text>
 
       <TextInput
@@ -73,24 +77,20 @@ export default function LoginScreen() {
       />
 
       <Pressable
-        style={[styles.button, loading && styles.buttonDisabled]}
+        style={({ pressed }) => [styles.btn, loading && { opacity: 0.6 }, pressed && { opacity: 0.9, transform: [{ scale: 0.98 }] }]}
         onPress={handleSubmit}
         disabled={loading}
       >
         {loading ? (
           <ActivityIndicator color="#FFF" />
         ) : (
-          <Text style={styles.buttonText}>
-            {isSignUp ? "Criar Conta" : "Entrar"}
-          </Text>
+          <Text style={styles.btnText}>{isSignUp ? "Criar Conta" : "Entrar"}</Text>
         )}
       </Pressable>
 
       <Pressable onPress={() => setIsSignUp(!isSignUp)}>
         <Text style={styles.switchText}>
-          {isSignUp
-            ? "Já tem conta? Entrar"
-            : "Não tem conta? Criar"}
+          {isSignUp ? "Ja tem conta? Entrar" : "Nao tem conta? Criar"}
         </Text>
       </Pressable>
     </KeyboardAvoidingView>
@@ -100,15 +100,26 @@ export default function LoginScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#FFF9F0",
+    backgroundColor: "#FFFFFF",
     padding: 24,
     justifyContent: "center",
   },
+  backBtn: {
+    position: "absolute",
+    top: 60,
+    left: 24,
+  },
+  backText: {
+    fontSize: 16,
+    color: "#06B6D4",
+    fontWeight: "600",
+  },
   title: {
     fontSize: 36,
-    fontWeight: "bold",
+    fontWeight: "800",
     textAlign: "center",
-    color: "#1F2937",
+    color: "#111827",
+    letterSpacing: -0.5,
   },
   subtitle: {
     fontSize: 16,
@@ -118,34 +129,37 @@ const styles = StyleSheet.create({
     marginBottom: 32,
   },
   input: {
-    backgroundColor: "#FFF",
+    backgroundColor: "#FFFFFF",
     borderRadius: 12,
     padding: 16,
     fontSize: 16,
     marginBottom: 12,
     borderWidth: 1,
     borderColor: "#E5E7EB",
-    color: "#1F2937",
+    color: "#111827",
   },
-  button: {
-    backgroundColor: "#3B82F6",
-    borderRadius: 12,
+  btn: {
+    backgroundColor: "#06B6D4",
+    borderRadius: 14,
     padding: 16,
     alignItems: "center",
     marginTop: 8,
+    shadowColor: "#06B6D4",
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.25,
+    shadowRadius: 12,
+    elevation: 6,
   },
-  buttonDisabled: {
-    opacity: 0.6,
-  },
-  buttonText: {
+  btnText: {
     color: "#FFF",
-    fontSize: 18,
-    fontWeight: "bold",
+    fontSize: 17,
+    fontWeight: "700",
   },
   switchText: {
-    color: "#3B82F6",
+    color: "#06B6D4",
     textAlign: "center",
     marginTop: 16,
     fontSize: 15,
+    fontWeight: "500",
   },
 });
