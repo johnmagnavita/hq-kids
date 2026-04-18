@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HQ Kids — Privacy Policy</title>
+<style>
+  body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; max-width: 780px; margin: 40px auto; padding: 0 20px; color: #1a1a1a; line-height: 1.6; }
+  h1 { border-bottom: 2px solid #39FF14; padding-bottom: 10px; }
+  h2 { margin-top: 32px; color: #0a3d62; }
+  code { background: #f4f4f4; padding: 2px 6px; border-radius: 4px; }
+  a { color: #0a3d62; }
+  .meta { color: #666; font-size: 0.9em; }
+</style>
+</head>
+<body>
+<h1>HQ Kids — Privacy Policy</h1>
+<p class="meta">Last updated: April 18, 2026 · Contact: <a href="mailto:john@multidrop.com">john@multidrop.com</a></p>
+
+<h2>1. Who we are</h2>
+<p>HQ Kids is a family task and gamification app operated by John Magnavita (independent developer). The app is provided for families to manage children's daily tasks, rewards, and progress.</p>
+
+<h2>2. What we collect</h2>
+<p>When a parent creates an account, we collect:</p>
+<ul>
+  <li><strong>Account data:</strong> email address and password (hashed) via Supabase Authentication.</li>
+  <li><strong>User ID:</strong> an internal unique identifier assigned to the parent account.</li>
+  <li><strong>Children profiles:</strong> first name (as entered by the parent), age, and optional avatar. Children do not create accounts themselves; they use a PIN on the parent's device.</li>
+  <li><strong>Tasks and rewards:</strong> task descriptions, recurrence, XP and coin values, completion history, and redemption history.</li>
+  <li><strong>Photos:</strong> when a child completes a task that requires visual proof, the photo is uploaded to our backend and sent to an AI model (Anthropic Claude) for validation against the task criteria. Photos are stored in Supabase Storage, accessible only to the parent account that owns them.</li>
+</ul>
+
+<p>We do <strong>not</strong> collect:</p>
+<ul>
+  <li>Precise location, contacts, microphone audio, health data, or financial data.</li>
+  <li>Third-party analytics or advertising identifiers.</li>
+  <li>Data from children directly — all data is entered or captured under the parent's supervision on the parent's device.</li>
+</ul>
+
+<h2>3. How we use it</h2>
+<ul>
+  <li>To authenticate the parent and sync data across devices.</li>
+  <li>To display tasks, rewards, and progress within the app.</li>
+  <li>To validate task-completion photos via an AI model, returning an approval or rejection decision to the parent.</li>
+</ul>
+
+<h2>4. Who we share it with</h2>
+<p>We share data only with the service providers that power the app:</p>
+<ul>
+  <li><strong>Supabase</strong> — hosts our database, authentication and file storage (EU region). <a href="https://supabase.com/privacy">Supabase Privacy Policy</a>.</li>
+  <li><strong>Anthropic</strong> — receives photos and task criteria to run AI validation via the Claude API. Photos sent to the API are not used by Anthropic to train models. <a href="https://www.anthropic.com/privacy">Anthropic Privacy Policy</a>.</li>
+</ul>
+<p>We do not sell data. We do not share data with advertisers.</p>
+
+<h2>5. Children's privacy</h2>
+<p>HQ Kids is designed to be used by parents on behalf of their children. Children do not sign up, do not provide an email, and do not interact with third-party services. Parents are responsible for their child's use of the app and for the content (including photos) uploaded from the child's device. We comply with COPPA and the equivalent requirements of the regions where the app is distributed.</p>
+
+<h2>6. Data retention</h2>
+<p>We keep account data while the account is active. Parents may delete their account at any time by writing to <a href="mailto:john@multidrop.com">john@multidrop.com</a>; we remove all associated data (children profiles, tasks, photos, history) within 30 days of the request.</p>
+
+<h2>7. Your rights</h2>
+<p>You may request access to, correction of, or deletion of your personal data, and you may withdraw consent at any time, by emailing <a href="mailto:john@multidrop.com">john@multidrop.com</a>. If you are in the EU/EEA, you may also contact your local data protection authority.</p>
+
+<h2>8. Security</h2>
+<p>Data in transit is protected with TLS. Passwords are hashed by Supabase Authentication (bcrypt). Access to production systems is restricted to the developer and protected by multi-factor authentication.</p>
+
+<h2>9. Changes to this policy</h2>
+<p>When we change this policy, we update the date at the top of the page and, for material changes, notify active accounts by email before the new version takes effect.</p>
+
+<h2>10. Contact</h2>
+<p>Questions? Email <a href="mailto:john@multidrop.com">john@multidrop.com</a>.</p>
+
+</body>
+</html>
